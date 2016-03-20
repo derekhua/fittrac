@@ -10,7 +10,7 @@ angular.module('app.routes', [])
     
   
 
-      .state('menu.dashboard', {
+  .state('menu.dashboard', {
     url: '/dashboard',
     views: {
       'side-menu21': {
@@ -94,6 +94,26 @@ angular.module('app.routes', [])
       'side-menu21': {
         templateUrl: 'templates/workouts.html',
         controller: 'workoutsCtrl'
+      }
+    }
+  })
+
+  .state('menu.nutritionSearch', {
+    url: '/nutrition/creation',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/nutritionSearch.html',
+        controller: 'nutritionSearchCtrl'
+      }
+    }
+  })
+
+ .state('menu.trackableItemSearch', {
+    url: '/dashboard/addItem',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/trackableItemSearch.html',
+        controller: 'trackableItemSearchCtrl'
       }
     }
   })

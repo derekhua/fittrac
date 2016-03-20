@@ -35,4 +35,15 @@ angular.module('app.controllers', [])
 .controller('workoutsCtrl', function($scope) {
 
 })
+
+.controller('nutritionCreationCtrl', function($scope) {
+
+})
+
+.controller('nutritionSearchCtrl', function($scope) {
+
+})
  
+.controller('trackableItemSearchCtrl', function($scope) {
+
+})
