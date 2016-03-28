@@ -3,19 +3,19 @@
         <form class="list">
             <ion-list>
                 <label class="item item-input">
-                    <span class="input-label">Name</span>
-                    <input type="text" placeholder="">
-                </label>
-                <label class="item item-input">
                     <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="data.username">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="data.password">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Email</span>
+                    <input type="text" placeholder="" ng-model="data.email">
                 </label>
             </ion-list>
-            <button id="signup-button5" class="button button-stable  button-block">Sign up</button>
+            <button id="signup-button5" class="button button-stable  button-block" ng-click="signup(data)">Sign up</button>
         </form>
     </ion-content>
 </ion-view>
