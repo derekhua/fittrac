@@ -28,6 +28,11 @@ angular.module('app.controllers', [])
   $scope.setCurrentUsername = function(name) {
     $scope.username = name;
   };
+
+  $scope.logout = function() {
+    $state.go('login');
+    AuthService.logout();
+  }
 })
 
 .controller('dashboardCtrl', function($scope) {

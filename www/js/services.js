@@ -66,8 +66,7 @@ angular.module('app.services', [])
 
   var signup = function(username, email, pw) {
     return $q(function(resolve, reject) {
-      $http.post(EC2.address + '/api/signup', {"username": username, "email": email, "password": pw, "bio" : "This is your bio", 
-                                               "website" : "Website URL here", "phone" : "5555555555", "gender" : "Not Specified"})
+      $http.post(EC2.address + '/api/signup', {"username": username, "email": email, "password": pw, "gender" : "Not Specified"})
       .then(function(response) {
         if (response.data.success === true) {        
           resolve('Sign up success.');
