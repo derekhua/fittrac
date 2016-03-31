@@ -49,8 +49,47 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('scheduleCtrl', function($scope) {
+.controller('scheduleCtrl', function($rootScope, $scope) {
+  $scope.getWorkouts = function() {
+    if ($rootScope.userInfo.workouts) {
+      return $rootScope.userInfo.workouts
+    } else {
+      return [];
+    }
+  };
 
+  $scope.createEvent = function(workout) {
+    var startDate = new Date(); 
+    var endDate = new Date();
+    var title = workout.name;
+    var eventLocation = "Gym";
+    var notes = 'Workout Notes: \n\n';
+    for (var i = 0; i < workout.exercises.length; ++i) {
+      notes += workout.exercises[i].name + '\n' + workout.exercises[i].description + '\n\n---------------------\n\n';
+    }
+    var success = function(message) { alert("Success: " + JSON.stringify(message)); };
+    var error = function(message) { alert("Error: " + message); };
+
+    var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
+    calOptions.firstReminderMinutes = 60; // default is 60, pass in null for no reminder (alarm)
+    calOptions.secondReminderMinutes = 15;
+
+    // Added these options in version 4.2.4:
+    calOptions.recurrence = "weekly"; // supported are: daily, weekly, monthly, yearly
+    calOptions.recurrenceEndDate = null; // leave null to add events into infinity and beyond
+    //calOptions.calendarName = "MyCreatedCalendar"; // iOS only
+
+    // This is new since 4.2.7:
+    // calOptions.recurrenceInterval = 2; // once every 2 months in this case, default: 1
+
+    // And the URL can be passed since 4.3.2 (will be appended to the notes on Android as there doesn't seem to be a sep field)
+    // calOptions.url = "https://www.google.com";
+
+    // on iOS the success handler receives the event ID (since 4.3.6)
+    // window.plugins.calendar.createEventWithOptions(title,eventLocation,notes,startDate,endDate,calOptions,success,error);
+
+    window.plugins.calendar.createEventInteractivelyWithOptions(title,eventLocation,notes,startDate,endDate,calOptions,success,error);
+  };
 })
    
 .controller('loginCtrl', function($scope, $rootScope, AuthService, $ionicPopup, $state, $http) {

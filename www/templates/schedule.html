@@ -1,8 +1,12 @@
 <ion-view title="Schedule">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <h4>Calendar</h4>
-        <div style="text-align:center;">
-            <img src="img/calendar.jpg" width="100%" height="auto">
-        </div>
+        <h4>Workouts</h4>
+        <ion-list>
+            <ion-item class="item-thumbnail-left"  ng-repeat="workout in getWorkouts()" ng-click="createEvent(workout)">
+                <img ng-src="{{workout.exercises[0].image}}">
+                <h2>{{workout.name}}</h2>
+                <p>{{workout.description}}</p>
+            </ion-item>
+       </ion-list>
     </ion-content>
 </ion-view>
