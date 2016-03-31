@@ -3,10 +3,6 @@ angular.module('app.controllers', [])
 .controller('AppCtrl', function($scope, $rootScope, $http, $state, $ionicPopup, AuthService, AUTH_EVENTS, EC2) {
   $scope.ec2Address = EC2.address;
   $scope.username = AuthService.username();
-  $http.get($scope.ec2Address + '/api/u/' + $scope.username).then(function(result) {
-    $rootScope.userInfo = result.data;
-    $rootScope.gender = result.data.gender;
-  });
 
   // Handle broadcasted messages
   $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
@@ -32,7 +28,21 @@ angular.module('app.controllers', [])
   $scope.logout = function() {
     $state.go('login');
     AuthService.logout();
-  }
+  };
+
+  $scope.refreshUser = function(callback) {
+    $http.get($scope.ec2Address + '/api/u/' + $scope.username).then(function(result) {
+      $rootScope.userInfo = result.data;
+      $rootScope.gender = result.data.gender;
+      if(callback) {
+        callback(result);
+      }
+    }).catch(function(err) {
+      console.log('Could not load user.');
+      console.log(err);
+    });
+  };
+  $scope.refreshUser();
 })
 
 .controller('dashboardCtrl', function($scope) {
@@ -43,10 +53,6 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('workoutCreationCtrl', function($scope) {
-
-})
-      
 .controller('loginCtrl', function($scope, $rootScope, AuthService, $ionicPopup, $state, $http) {
   $scope.data = {};
 
@@ -64,10 +70,6 @@ angular.module('app.controllers', [])
       });
     });
   };
-})
-   
-.controller('nutritionCtrl', function($scope) {
-
 })
    
 .controller('visualizationCtrl', function($scope) {
@@ -96,21 +98,101 @@ angular.module('app.controllers', [])
     $state.go('login');
   };
 })
-   
-.controller('exerciseSearchCtrl', function($scope) {
-
+ 
+.controller('workoutsCtrl', function($rootScope, $scope, $http) {  
+  $scope.getWorkouts = function() {
+    if ($rootScope.userInfo.workouts) {
+      return $rootScope.userInfo.workouts
+    } else {
+      return [];
+    }
+  }
+})
+  
+.controller('workoutCreationCtrl', function($rootScope, $scope, $http, $state) {  
+  $scope.clear = function() {
+    $rootScope.workout = {};
+    $rootScope.workout.name = '';
+    $rootScope.workout.description = '';
+    $rootScope.workout.exercises = [];
+  };
+  $scope.addWorkout = function() {
+    $http.post($scope.ec2Address + '/api/u/' + $rootScope.userInfo.username, {$push : {"workouts": $rootScope.workout}})
+    .then(function(result) {
+      console.log("Workout added");
+      $scope.clear();
+      $scope.refreshUser(function() {
+        $state.go('menu.workouts');  
+      });      
+    }).catch(function(err) {
+      console.log("Workout adding failed");
+    });
+  };
+  $scope.clear();
 })
    
-.controller('workoutsCtrl', function($scope) {
+.controller('exerciseSearchCtrl', function($rootScope, $scope, $http, $state) {
+  $scope.exerciseSearchResults = [];
+  $scope.searchExercises = function(query) {
+    if (query.trim()) {
+      $http.get($scope.ec2Address + '/api/search/exercise/', {params: {"q": query.trim()}})
+      .then(function(response) {
+        $scope.exerciseSearchResults = response.data;
+      })
+      .catch(function(err) {
+        console.log('exercise search failed');
+        console.log(err);       
+      });
+    } else {
+      $scope.exerciseSearchResults = [];
+    }
+  };
 
+  $scope.addExercise = function(exercise) {
+    exercise.description = exercise.description.replace(/<\/?[^>]+(>|$)/g, "");
+    $rootScope.workout.exercises.push(exercise);
+    $state.go('menu.workoutCreation');
+  };
 })
 
-.controller('nutritionCreationCtrl', function($scope) {
-
+.controller('nutritionCtrl', function($scope, $rootScope) {
+  $scope.getNutrition = function() {
+    if ($rootScope.userInfo.nutrition) {
+      return $rootScope.userInfo.nutrition;
+    } else {
+      return [];
+    }
+  };
 })
+  
+.controller('nutritionSearchCtrl', function($rootScope, $scope, $http, $state) {
+  $scope.nutritionSearchResults = [];
+  $scope.searchNutrition = function(query) {
+    if (query.trim()) {
+      $http.get($scope.ec2Address + '/api/search/nutrition/', {params: {"q": query.trim()}})
+      .then(function(response) {
+        $scope.nutritionSearchResults = response.data;
+      })
+      .catch(function(err) {
+        console.log('exercise search failed');
+        console.log(err);       
+      });
+    } else {
+      $scope.nutritionSearchResults = [];
+    }
+  };
 
-.controller('nutritionSearchCtrl', function($scope) {
-
+  $scope.addNutrition = function(nutrition) {
+    $http.post($scope.ec2Address + '/api/u/' + $rootScope.userInfo.username, {$push : {"nutrition": nutrition}})
+    .then(function(result) {
+      console.log("Nutrition added");
+      $scope.refreshUser(function() {
+        $state.go('menu.nutrition');  
+      });      
+    }).catch(function(err) {
+      console.log("Nutrition adding failed");
+    });
+  };
 })
  
 .controller('trackableItemSearchCtrl', function($scope) {

@@ -1,17 +1,12 @@
 <ion-view title="Workouts">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/benchpress.jpg">
-                <h2>Benchpress</h2>
-                <p></p>
+            <ion-item class="item-thumbnail-left"  ng-repeat="workout in getWorkouts()">
+                <img ng-src="{{workout.exercises[0].image}}">
+                <h2>{{workout.name}}</h2>
+                <p>{{workout.description}}</p>
             </ion-item>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/pullup.png">
-                <h2>Pull Ups</h2>
-                <p></p>
-            </ion-item>
-        </ion-list>
+       </ion-list>
         <a ui-sref="menu.workoutCreation" id="workouts-button9" class="button button-stable  button-block icon ion-ios-plus-outline">New workout</a>
     </ion-content>
 </ion-view>

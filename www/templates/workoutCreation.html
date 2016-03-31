@@ -3,16 +3,33 @@
         <form class="list">
             <label class="item item-input" name="workout-name">
                 <span class="input-label">Name</span>
-                <input type="text" placeholder="e.g. Chest Day">
+                <input type="text" ng-model="workout.name" placeholder="e.g. Chest Day">
+            </label>
+            <label class="item item-input" name="workout-description">
+                <span class="input-label">Description</span>
+                <input type="text" ng-model="workout.description" placeholder="Big chest gainz">
             </label>
         </form>
+
+        <button class="button button-stable button-block icon ion-android-done" ng-click="clear()">
+            Clear
+        </button>
         <ion-list>
-            <ion-item class="item-thumbnail-left" ui-sref="menu.exerciseSearch">
-                <img>
-                <h2>Add New Item</h2>
-                <p></p>
+            <ion-item class="item-thumbnail-left" ng-repeat="exercise in workout.exercises"> 
+                <img ng-src="{{exercise.image}}" title="thumbnail" width="100%"/>
+                <h2>{{exercise.name}}</h2>
+                <p>{{exercise.description}}</p>
             </ion-item>
         </ion-list>
-        <a ui-sref="menu.workouts" id="workoutCreation-button10" class="button button-stable  button-block icon ion-android-done">Done</a>
+
+        <ion-item class="item-thumbnail-left" ui-sref="menu.exerciseSearch">
+            <img>
+            <h2>Add New Item</h2>
+            <p></p>
+        </ion-item>
+
+        <button class="button button-stable button-block icon ion-android-done" ng-click="addWorkout()">
+            Done
+        </button>
     </ion-content>
 </ion-view>

@@ -1,21 +1,14 @@
 <ion-view title="Nutrition">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
 	    <ion-list>
-	        <ion-item class="item-thumbnail-left">
+	        <ion-item class="item-thumbnail-left" ng-repeat="nutritionItem in getNutrition()">
 	            <img src="img/steak.jpg">
-	            <b><h2>Steak</h2></b>
-	            <p></p>
-	        </ion-item>
-	        <ion-item class="item-thumbnail-left">
-	            <img src="img/yogurt.jpg">
-	            <b><h2>Yogurt</h2></b>
-	            <p></p>
-	        </ion-item>
-	        <ion-item class="item-thumbnail-left">
-	            <img src="img/banana.jpg"> 
-	            <b><h2>Banana</h2></b>
-	            <p></p>
-	        </ion-item>
+	            <h2>{{nutritionItem.name}}</h2>
+	            <p>Cal: {{nutritionItem.energy}}</p>
+	            <p>Pro: {{nutritionItem.protein}}</p>
+	            <p>Fat: {{nutritionItem.fat}}</p>
+	            <p>Carbs: {{nutritionItem.carbohydrates}}</p>
+	        </ion-item>	        
 	    </ion-list>
 	    <a ui-sref="menu.nutritionSearch" id="nutrition-button9" class="button button-stable  button-block icon ion-ios-plus-outline">New Item</a>
     </ion-content>

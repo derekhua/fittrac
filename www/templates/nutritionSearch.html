@@ -3,13 +3,21 @@
         <form class="list">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="search" placeholder="">
+                <input  type="search" placeholder=""
+                        ng-model="query" ng-keyup="searchNutrition(query)">
             </label>
         </form>
         <ion-list>
-            <ion-item ui-sref="menu.nutrition">Food Item 1</ion-item>
-            <ion-item ui-sref="menu.nutrition">Food Item 2</ion-item>
-            <ion-item ui-sref="menu.nutrition">Food Item 3</ion-item>
+            <ion-item   class="item item-thumbnail-left"
+                        ng-repeat="nutritionItem in nutritionSearchResults"
+                        ng-click="addNutrition(nutritionItem)">
+                <img ng-src="{{nutritionItem.image}}" title="thumbnail" width="100%"/>
+                <h2>{{nutritionItem.name}}</h2>
+                <p>Cal: {{nutritionItem.energy}}</p>
+                <p>Pro: {{nutritionItem.protein}}</p>
+                <p>Fat: {{nutritionItem.fat}}</p>
+                <p>Carbs: {{nutritionItem.carbohydrates}}</p>
+            </ion-item>            
         </ion-list>
     </ion-content>
 </ion-view>

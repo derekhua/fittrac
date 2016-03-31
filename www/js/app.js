@@ -106,7 +106,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.services', 'app.directiv
   })
 
   .state('menu.nutritionSearch', {
-    url: '/nutrition/creation',
+    url: '/nutrition/search',
     views: {
       'side-menu21': {
         templateUrl: 'templates/nutritionSearch.html',
