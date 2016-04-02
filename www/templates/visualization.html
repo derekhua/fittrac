@@ -1,8 +1,6 @@
 <ion-view title="Visualization">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <h4>Progress over time</h4>
-        <div style="text-align:center;">
-            <img src="img/5ZxVyCVCQSq5WkUAYH87_2000px-ScientificGraphSpeedVsTime.svg.png" width="100%" height="auto">
-        </div>
+    	<canvas id="bar" class="chart chart-line" data="graph.data" labels="graph.labels" series='graph.series' height="200"></canvas>
     </ion-content>
 </ion-view>
