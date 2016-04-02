@@ -33,7 +33,6 @@ angular.module('app.controllers', [])
   $scope.refreshUser = function(callback) {
     $http.get($scope.ec2Address + '/api/u/' + $scope.username).then(function(result) {
       $rootScope.userInfo = result.data;
-      $rootScope.gender = result.data.gender;
       if(callback) {
         callback(result);
       }
@@ -45,8 +44,15 @@ angular.module('app.controllers', [])
   $scope.refreshUser();
 })
 
-.controller('dashboardCtrl', function($scope) {
-
+.controller('dashboardCtrl', function($scope, $rootScope, $http) {
+  var trackableItems = [];
+  $http.get($scope.ec2Address + '/api/u/' + $scope.username).then(function(result) {
+    $rootScope.userInfo = result.data;
+    trackableItems = result.data.trackableItems;
+  }).catch(function(err) {
+    console.log('Could not load user.');
+    console.log(err);
+  });
 })
    
 .controller('scheduleCtrl', function($rootScope, $scope) {
@@ -234,6 +240,34 @@ angular.module('app.controllers', [])
   };
 })
  
-.controller('trackableItemSearchCtrl', function($scope) {
+.controller('trackableItemSearchCtrl', function($scope, $http, $state, $rootScope) {
+  $scope.trackableSearchResults = [];
+  $scope.searchTrackables = function(query) {
+    if (query.trim()) {
+      $http.get($scope.ec2Address + '/api/search/trackable/', {params: {"q": query.trim()}})
+      .then(function(response) {
+        $scope.trackableSearchResults = response.data;
+      })
+      .catch(function(err) {
+        console.log('trackable items search failed');
+        console.log(err);       
+      });
+    } else {
+      $scope.trackableSearchResults = [];
+    }
+  };
 
+  $scope.addTrackable = function(trackable) {
+    trackable.goal = document.getElementsByClassName('goal')[document.getElementsByClassName('goal').length - 1].value;
+    console.log(trackable.goal);
+    $http.post($scope.ec2Address + '/api/u/' + $rootScope.userInfo.username, {$push : {"trackableItems": trackable}})
+    .then(function(result) {
+      console.log("Trackable item added");
+      $scope.refreshUser(function() {
+        $state.go('menu.dashboard');  
+      });      
+    }).catch(function(err) {
+      console.log("Trackable item adding failed");
+    });
+  };
 })

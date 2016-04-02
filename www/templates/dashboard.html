@@ -1,20 +1,10 @@
 <ion-view title="Dashboard">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item-thumbnail-left">
-            	<img src="img/calories.jpg">       
-                <h2>Calories</h2>
-                <p>500/2000 Calories</p>
-            </ion-item>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/benchpress.jpg">             
-                <h2>Benchpress</h2>
-                <p>2/8 Benchpresses</p>
-            </ion-item>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/running.png">
-           	    <h2>Running</h2>
-           	    <p>1.5/5 miles</p>
+            <ion-item class="item-thumbnail-left" ng-repeat="trackableItem in userInfo.trackableItems">
+            	<img src="{{trackableItem.image}}">       
+                <h2>{{trackableItem.name}}</h2>
+                <p>{{trackableItem.progress}}/{{trackableItem.goal}}</p>
             </ion-item>
         </ion-list>
 	    <a ui-sref="menu.trackableItemSearch" id="nutrition-button9" class="button button-stable  button-block icon ion-ios-plus-outline">New Item</a>
