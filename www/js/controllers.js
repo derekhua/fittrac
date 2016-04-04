@@ -246,6 +246,32 @@ angular.module('app.controllers', [])
     }).catch(function(err) {
       console.log("Nutrition adding failed");
     });
+
+    console.log($rootScope.userInfo.trackableItems);
+
+    var updatedProgress = 0;
+    for (i = 0; i < $rootScope.userInfo.trackableItems.length; i++) {
+      if ($rootScope.userInfo.trackableItems[i].name === "Calories") {
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.energy;
+      }
+      else if ($rootScope.userInfo.trackableItems[i].name === "Fat") {
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.fat;
+      }
+      else if ($rootScope.userInfo.trackableItems[i].name === "Protein") {
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.protein;
+      }
+      else if ($rootScope.userInfo.trackableItems[i].name === "Carbs") {
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.carbohydrates;
+      }
+      $rootScope.userInfo.trackableItems[i].history.push({"progress" : updatedProgress, "timestamp" : Date.now()})
+      $rootScope.userInfo.trackableItems[i].progress = updatedProgress;
+    }
+    $http.post($scope.ec2Address + '/api/u/' + $rootScope.userInfo.username, {"trackableItems" : $rootScope.userInfo.trackableItems})
+    .then(function(result) {
+      console.log("Trackable item history updated");   
+    }).catch(function(err) {
+      console.log("Trackable item history update failed");
+    });
   };
 })
  
@@ -268,7 +294,8 @@ angular.module('app.controllers', [])
 
   $scope.addTrackable = function(trackable) {
     trackable.goal = document.getElementsByClassName('goal')[document.getElementsByClassName('goal').length - 1].value;
-    console.log(trackable.goal);
+    trackable.history = [];
+    trackable.history.push({"progress" : 0, "timestamp" : Date.now()});
     $http.post($scope.ec2Address + '/api/u/' + $rootScope.userInfo.username, {$push : {"trackableItems": trackable}})
     .then(function(result) {
       console.log("Trackable item added");

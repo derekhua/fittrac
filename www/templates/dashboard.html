@@ -1,10 +1,10 @@
 <ion-view title="Dashboard">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item-thumbnail-left" ng-repeat="trackableItem in userInfo.trackableItems">
+            <ion-item class="item-thumbnail-left" ng-repeat="trackableItem in userInfo.trackableItems" ui-sref="menu.visualization">
             	<img src="{{trackableItem.image}}">       
                 <h2>{{trackableItem.name}}</h2>
-                <p>{{trackableItem.progress}}/{{trackableItem.goal}}</p>
+                <p>{{trackableItem.progress}}/{{trackableItem.goal || 0}}</p>
             </ion-item>
         </ion-list>
 	    <a ui-sref="menu.trackableItemSearch" id="nutrition-button9" class="button button-stable  button-block icon ion-ios-plus-outline">New Item</a>
