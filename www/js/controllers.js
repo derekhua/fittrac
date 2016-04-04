@@ -272,16 +272,16 @@ $scope.clear = function() {
     var updatedProgress = 0;
     for (i = 0; i < $rootScope.userInfo.trackableItems.length; i++) {
       if ($rootScope.userInfo.trackableItems[i].name === "Calories") {
-        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.energy;
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + Number(nutrition.energy);
       }
       else if ($rootScope.userInfo.trackableItems[i].name === "Fat") {
-        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.fat;
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + Number(nutrition.fat);
       }
       else if ($rootScope.userInfo.trackableItems[i].name === "Protein") {
-        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.protein;
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + Number(nutrition.protein);
       }
       else if ($rootScope.userInfo.trackableItems[i].name === "Carbs") {
-        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + nutrition.carbohydrates;
+        updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + Number(nutrition.carbohydrates);
       }
       $rootScope.userInfo.trackableItems[i].history.push({"progress" : updatedProgress, "timestamp" : Date.now()})
       $rootScope.userInfo.trackableItems[i].progress = updatedProgress;
