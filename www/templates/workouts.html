@@ -1,12 +1,45 @@
 <ion-view title="Workouts">
+    <ion-nav-buttons side="right">
+	      <a ui-sref="menu.workoutCreation" id="workouts-button9" class="button button-stable button-clear icon ion-ios-plus-outline"></a>
+    </ion-nav-buttons>
+
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item-thumbnail-left"  ng-repeat="workout in getWorkouts()">
+            <ion-item class="item-thumbnail-left"  ng-repeat="workout in getWorkouts()" ng-click="openModal(workout)">
                 <img ng-src="{{workout.exercises[0].image}}">
                 <h2>{{workout.name}}</h2>
                 <p>{{workout.description}}</p>
             </ion-item>
        </ion-list>
-        <a ui-sref="menu.workoutCreation" id="workouts-button9" class="button button-stable  button-block icon ion-ios-plus-outline">New workout</a>
     </ion-content>
 </ion-view>
+
+
+<script id="my-modal.html" type="text/ng-template">
+    <ion-modal-view>
+        <div class="bar bar-header bar-stable">
+            <button class="button button-stable button-clear icon ion-ios-close-empty" ng-click="closeModal()"></button>
+            <h1 class="title">{{workout.name}}</h1>
+        </div>
+        <ion-content>
+            <p>Description: {{workout.description}}</p>
+            
+
+            <div class="list card" ng-repeat="exercise in workout.exercises">
+                <div class="item item-avatar">
+                  <img ng-src="{{exercise.image}}">
+                    <h2>{{exercise.name}}</h2>
+                </div>
+
+                <div class="item item-body">
+                    <img class="full-image" ng-src="{{exercise.image}}">
+                    <p>
+                        {{exercise.description}}  
+                    </p>
+                </div>
+
+            </div>
+
+</ion-content>
+</ion-modal-view>
+</script>

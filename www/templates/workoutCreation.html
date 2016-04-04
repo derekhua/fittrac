@@ -1,4 +1,8 @@
 <ion-view title="Workout Creation">
+    <ion-nav-buttons side="right">
+	      <a class="button button-stable button-clear icon ion-android-done" ng-click="addWorkout()"></a>
+    </ion-nav-buttons>
+  
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <form class="list">
             <label class="item item-input" name="workout-name">
@@ -11,10 +15,7 @@
             </label>
         </form>
 
-        <button class="button button-stable button-block icon ion-android-done" ng-click="clear()">
-            Clear
-        </button>
-        <ion-list>
+       <ion-list>
             <ion-item class="item-thumbnail-left" ng-repeat="exercise in workout.exercises"> 
                 <img ng-src="{{exercise.image}}" title="thumbnail" width="100%"/>
                 <h2>{{exercise.name}}</h2>
@@ -27,9 +28,8 @@
             <h2>Add New Item</h2>
             <p></p>
         </ion-item>
-
-        <button class="button button-stable button-block icon ion-android-done" ng-click="addWorkout()">
-            Done
+        <button class="button button-assertive button-block icon ion-nuclear" ng-click="clear()">
+            Clear
         </button>
     </ion-content>
 </ion-view>

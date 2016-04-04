@@ -17,7 +17,11 @@ $dark:                            #444 !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
+$stable: #3a5795 !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.bar.bar-stable, .bar-stable .button.button-clear, .bar.bar-stable .title, .button.button-stable, .button.button-stable:hover {
+  color: #FFF;
+}
