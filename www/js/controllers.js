@@ -44,7 +44,7 @@ angular.module('app.controllers', [])
   $scope.refreshUser();
 })
 
-.controller('dashboardCtrl', function($scope, $rootScope, $http) {
+.controller('dashboardCtrl', function($scope, $rootScope, $http, $state) {
   var trackableItems = [];
   $http.get($scope.ec2Address + '/api/u/' + $scope.username).then(function(result) {
     $rootScope.userInfo = result.data;
@@ -53,6 +53,20 @@ angular.module('app.controllers', [])
     console.log('Could not load user.');
     console.log(err);
   });
+
+  $scope.goToGraph = function(trackableItem) {
+    $rootScope.graph = {};
+    $rootScope.graph.series = trackableItem.name;
+    $rootScope.graph.labels = [];
+    $rootScope.graph.data = [];
+    $rootScope.graph.data.push([]);
+
+    for (i = 0; i < trackableItem.history.length; i++) {
+      $rootScope.graph.data[0].push(trackableItem.history[i].progress);
+      $rootScope.graph.labels.push(new Date(trackableItem.history[i].timestamp).toLocaleString());
+    }
+    $state.go("menu.visualization");
+  }
 })
    
 .controller('scheduleCtrl', function($rootScope, $scope) {
@@ -117,23 +131,24 @@ angular.module('app.controllers', [])
   };
 })
    
-.controller('visualizationCtrl', function($scope) {
-  $scope.graph = {};
-  $scope.graph.data = [
-    //Calories
-    [0, 2750, 2500, 3100, 2270, 2400, 2900, 3250],
-  ];
-  var currentDateTime = ( new Date() ).valueOf();
-  var d1 = new Date(currentDateTime - 200000000);
-  var d2 = new Date(currentDateTime - 170000000);
-  var d3 = new Date(currentDateTime - 140000000);
-  var d4 = new Date(currentDateTime - 110000000);
-  var d5 = new Date(currentDateTime - 80000000);
-  var d6 = new Date(currentDateTime - 50000000);
-  var d7 = new Date(currentDateTime - 20000000);
+.controller('visualizationCtrl', function($scope, $rootScope) {
+  console.log($rootScope.graph);
+  // $scope.graph = {};
+  // $scope.graph.data = [
+  //   //Calories
+  //   [0, 2750, 2500, 3100, 2270, 2400, 2900, 3250],
+  // ];
+  // var currentDateTime = ( new Date() ).valueOf();
+  // var d1 = new Date(currentDateTime - 200000000);
+  // var d2 = new Date(currentDateTime - 170000000);
+  // var d3 = new Date(currentDateTime - 140000000);
+  // var d4 = new Date(currentDateTime - 110000000);
+  // var d5 = new Date(currentDateTime - 80000000);
+  // var d6 = new Date(currentDateTime - 50000000);
+  // var d7 = new Date(currentDateTime - 20000000);
 
-  $scope.graph.labels = [d1.toLocaleString(), d2.toLocaleString(), d3.toLocaleString(), d4.toLocaleString(), d5.toLocaleString(), d6.toLocaleString(), d7.toLocaleString()];
-  $scope.graph.series = ['Calories'];
+  // $scope.graph.labels = [d1.toLocaleString(), d2.toLocaleString(), d3.toLocaleString(), d4.toLocaleString(), d5.toLocaleString(), d6.toLocaleString(), d7.toLocaleString()];
+  // $scope.graph.series = ['Calories'];
 
 })
    

@@ -5,7 +5,7 @@
 
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item-thumbnail-left" ng-repeat="trackableItem in userInfo.trackableItems" ui-sref="menu.visualization">
+            <ion-item class="item-thumbnail-left" ng-repeat="trackableItem in userInfo.trackableItems" ng-click="goToGraph(trackableItem)">
             	<img src="{{trackableItem.image}}">       
                 <h2>{{trackableItem.name}}</h2>
                 <p>{{trackableItem.progress}}/{{trackableItem.goal || 0}}</p>
