@@ -120,13 +120,20 @@ angular.module('app.controllers', [])
 .controller('visualizationCtrl', function($scope) {
   $scope.graph = {};
   $scope.graph.data = [
-    //Awake
-    [16, 15, 20, 12, 16, 12, 8],
-    //Asleep
-    [8, 9, 4, 12, 8, 12, 14]
+    //Calories
+    [0, 2750, 2500, 3100, 2270, 2400, 2900, 3250],
   ];
-  $scope.graph.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  $scope.graph.series = ['Awake', 'Asleep'];
+  var currentDateTime = ( new Date() ).valueOf();
+  var d1 = new Date(currentDateTime - 200000000);
+  var d2 = new Date(currentDateTime - 170000000);
+  var d3 = new Date(currentDateTime - 140000000);
+  var d4 = new Date(currentDateTime - 110000000);
+  var d5 = new Date(currentDateTime - 80000000);
+  var d6 = new Date(currentDateTime - 50000000);
+  var d7 = new Date(currentDateTime - 20000000);
+
+  $scope.graph.labels = [d1.toLocaleString(), d2.toLocaleString(), d3.toLocaleString(), d4.toLocaleString(), d5.toLocaleString(), d6.toLocaleString(), d7.toLocaleString()];
+  $scope.graph.series = ['Calories'];
 
 })
    
