@@ -153,7 +153,7 @@ angular.module('app.controllers', [])
   };
 })
  
-.controller('workoutsCtrl', function($rootScope, $scope, $http) {  
+.controller('workoutsCtrl', function($rootScope, $scope, $http, $ionicModal) {  
   $scope.getWorkouts = function() {
     if ($rootScope.userInfo.workouts) {
       return $rootScope.userInfo.workouts
@@ -161,10 +161,23 @@ angular.module('app.controllers', [])
       return [];
     }
   }
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function(workout) {
+    $scope.workout = workout;
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
 })
-  
+
 .controller('workoutCreationCtrl', function($rootScope, $scope, $http, $state) {  
-  $scope.clear = function() {
+$scope.clear = function() {
     $rootScope.workout = {};
     $rootScope.workout.name = '';
     $rootScope.workout.description = '';
