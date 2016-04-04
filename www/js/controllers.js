@@ -284,7 +284,7 @@ $scope.clear = function() {
         updatedProgress = $rootScope.userInfo.trackableItems[i].history[$rootScope.userInfo.trackableItems[i].history.length - 1].progress + Number(nutrition.carbohydrates);
       }
       $rootScope.userInfo.trackableItems[i].history.push({"progress" : updatedProgress, "timestamp" : Date.now()})
-      $rootScope.userInfo.trackableItems[i].progress = updatedProgress;
+      $rootScope.userInfo.trackableItems[i].progress = parseFloat(updatedProgress).toPrecision(6);
     }
     $http.post($scope.ec2Address + '/api/u/' + $rootScope.userInfo.username, {"trackableItems" : $rootScope.userInfo.trackableItems})
     .then(function(result) {
