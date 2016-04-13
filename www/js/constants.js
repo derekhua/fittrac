@@ -1,7 +1,7 @@
 angular.module('app')
 
 .constant('EC2', {
-  address: 'http://localhost:3001'
+  address: 'http://ec2-54-165-233-14.compute-1.amazonaws.com:3001'
 })
 
 .constant('AUTH_EVENTS', {
